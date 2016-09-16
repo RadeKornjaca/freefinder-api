@@ -15,3 +15,9 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Ignore public files (images)
+/public
+
+# Ignore Vim swap files
+*.sw?

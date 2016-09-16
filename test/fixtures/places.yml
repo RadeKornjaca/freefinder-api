@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  lat: 1.5
+  lng: 1.5
+  img_path: MyString
+  likes: 1
+  dislikes: 1
+  inappropriate: 1
+  category: one
+
+two:
+  name: MyString
+  lat: 1.5
+  lng: 1.5
+  img_path: MyString
+  likes: 1
+  dislikes: 1
+  inappropriate: 1
+  category: two
