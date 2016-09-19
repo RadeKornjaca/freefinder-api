@@ -10,8 +10,9 @@ class ImageWorker
       data.class.class_eval {attr_accessor :original_filename, :content_type}
       data.original_filename = place.id.to_s + ".png"
       data.content_type = "image/png"
+
+      place.update_attribute(:image, data)
     end
 
-    place.update_attribute(:image, data)
   end
 end
