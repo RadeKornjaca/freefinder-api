@@ -3,7 +3,11 @@ class PlacesController < ApplicationController
 
   # GET /places
   def index
-    @places = Place.all
+    # @places = Place.all
+    @places = Place.area(params[:top_lat],
+                         params[:down_lat],
+                         params[:top_long],
+                         params[:down_long])
 
     render json: @places
   end
@@ -16,7 +20,6 @@ class PlacesController < ApplicationController
   # POST /places
   def create
     @place = Place.new(place_params)
-    # @place.decode_image_data(params[:image])
 
     if @place.save
       render json: @place, status: :created, location: @place
