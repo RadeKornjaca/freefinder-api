@@ -1,4 +1,4 @@
-class PlacesController < ApplicationController
+class PlacesController < AuthenticationController
   before_action :set_place, only: [:show, :update, :destroy]
 
   # GET /places
