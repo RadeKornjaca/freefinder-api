@@ -21,3 +21,6 @@
 
 # Ignore Vim swap files
 *.sw?
+
+# Ignore Redis dump file
+dump.rdb
