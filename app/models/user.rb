@@ -3,5 +3,5 @@ class User < ApplicationRecord
 
   has_many :api_keys
 
-  validates_uniqueness_of :email
+  validates :email, presence: true, uniqueness: true
 end

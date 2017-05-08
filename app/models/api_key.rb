@@ -3,6 +3,9 @@ class ApiKey < ApplicationRecord
 
   belongs_to :user
 
+  validates :access_token, presence: true
+  validates_associated :user
+
   private
     def generate_access_token
       begin

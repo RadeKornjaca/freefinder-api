@@ -4,10 +4,10 @@ class PlacesController < AuthenticationController
   # GET /places
   def index
     # @places = Place.all
-    @places = Place.area(params[:top_lat],
-                         params[:down_lat],
-                         params[:top_long],
-                         params[:down_long])
+    @places = Place.area(params[:min_lat],
+                         params[:max_lat],
+                         params[:min_lng],
+                         params[:max_lng])
 
     render json: @places
   end

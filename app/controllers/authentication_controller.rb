@@ -1,5 +1,5 @@
 class AuthenticationController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate
 
   include ActionController::HttpAuthentication::Basic::ControllerMethods
   include ActionController::HttpAuthentication::Token::ControllerMethods
