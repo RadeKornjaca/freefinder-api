@@ -3,7 +3,7 @@ class ApiKey < ApplicationRecord
 
   belongs_to :user
 
-  validates :access_token, presence: true
+  validates :access_token, uniqueness: true
   validates_associated :user
 
   private

@@ -5,10 +5,9 @@ class UsersController < ApplicationController
   # POST /users
   def create
       @user = User.new(user_params)
-      @user.api_keys << ApiKey.new
 
       if @user.save
-        render :json => @user.api_keys.first, :status => :created
+        render :status => :created
       else
         render :status => :unprocessable_entity
       end
