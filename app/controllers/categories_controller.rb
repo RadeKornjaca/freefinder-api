@@ -3,9 +3,11 @@ class CategoriesController < AuthenticationController
 
   # GET /categories
   def index
-    @categories = Category.all
+    update_timestamp = params[:update_timestamp]
 
-    render json: @categories
+    @categories = Category.fetch_categories(update_timestamp)
+
+    render json: @categories, include: :category, methods: :update_timestamp
   end
 
   # GET /categories/1
