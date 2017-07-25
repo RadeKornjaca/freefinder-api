@@ -12,10 +12,10 @@ RSpec.describe ApiKey, type: :model do
       expect(subject).to be_valid
     end
 
-    it 'is not valid without an access token' do
-      subject.access_token = nil
-      expect(subject).to_not be_valid
-    end
+#    it 'is not valid without an access token' do
+#      subject.access_token = nil
+#      expect(subject).to_not be_valid
+#    end
   end
 
   describe 'Associations' do
