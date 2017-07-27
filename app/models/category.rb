@@ -13,10 +13,6 @@ class Category < ApplicationRecord
     end
   end
 
-  def update_timestamp
-    current_time_from_proper_timezone
-  end
-
   def parent_category
     Category.find(category_id) if category_id
   end

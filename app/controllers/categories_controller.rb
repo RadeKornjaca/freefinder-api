@@ -7,7 +7,8 @@ class CategoriesController < AuthenticationController
 
     @categories = Category.fetch_categories(update_timestamp)
 
-    render json: @categories, include: :category, methods: :update_timestamp
+    # render json: @categories, include: :category, methods: :update_timestamp
+    # render 'categories/index'
   end
 
   # GET /categories/1
