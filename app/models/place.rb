@@ -1,10 +1,11 @@
 class Place < ApplicationRecord
   belongs_to :category
+  has_many   :ratings
+  has_many   :users, through: :ratings
 
-  validates :name, :lat, :lng, presence: true
-  validates_associated :category
+  validates :name, :lat, :lng, :category, presence: true
 
-  has_attached_file :image
+  # has_attached_file :image
 
   scope :upper_area, lambda { |min_lat| where('lat >= ?', min_lat) }
   scope :down_area,  lambda { |max_lat| where('lat <= ?', max_lat) }
@@ -18,6 +19,6 @@ class Place < ApplicationRecord
          right_area(min_long)
   end
 
-  validates_attachment :image, content_type: { content_type: ['image/jpg', 'image/jpeg', 'image/png'] }
+  # validates_attachment :image, content_type: { content_type: ['image/jpg', 'image/jpeg', 'image/png'] }
 
 end

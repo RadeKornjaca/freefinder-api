@@ -3,13 +3,15 @@ class PlacesController < AuthenticationController
 
   # GET /places
   def index
-    # @places = Place.all
     @places = Place.area(params[:min_lat],
                          params[:max_lat],
                          params[:min_lng],
-                         params[:max_lng])
+                         params[:max_lng]).includes([ :category, :ratings ])
+                                          .where(category_id: params[:category_id])
+#                                          .where(ratings: { user_id: @current_user.id })
 
-    render json: @places
+    # render json: @places, include: :category
+    # @places.includes( [:category, :ratings] )
   end
 
   # GET /places/1
@@ -42,7 +44,7 @@ class PlacesController < AuthenticationController
     @place.destroy
   end
 
-  after_action :decode_image, :only => [:create, :update]
+  # after_action :decode_image, :only => [:create, :update]
 
   private
     def decode_image
@@ -56,7 +58,7 @@ class PlacesController < AuthenticationController
 
     # Only allow a trusted parameter "white list" through.
     def place_params
-      params.require(:place).permit(:name, :lat, :lng, :encoded_image, :likes, :dislikes, :inappropriate, :category_id)
+      params.require(:place).permit(:name, :lat, :lng, :encoded_image, :rate, :category_id)
     end
 
 end

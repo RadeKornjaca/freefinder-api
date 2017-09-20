@@ -7,7 +7,7 @@ class CategoriesController < AuthenticationController
 
     @categories = Category.fetch_categories(update_timestamp)
 
-    # render json: @categories, include: :category, methods: :update_timestamp
+    # render json: @categories, include: :category
     # render 'categories/index'
   end
 
@@ -49,6 +49,6 @@ class CategoriesController < AuthenticationController
 
     # Only allow a trusted parameter "white list" through.
     def category_params
-      params.require(:category).permit(:name, :subcategory_id)
+      params.require(:category).permit(:name, :parent_category_id)
     end
 end

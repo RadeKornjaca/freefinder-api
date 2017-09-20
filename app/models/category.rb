@@ -1,7 +1,7 @@
 class Category < ApplicationRecord
-  belongs_to :category, optional: true
+  belongs_to :parent_category, optional: true, class_name: 'Category'
 
-  validates :name, presence: true
+  validates :name, uniqueness: true, presence: true
 
   scope :after_last_update, lambda { |last_updated_timestamp| where('updated_at >= ?', last_updated_timestamp) }
 
@@ -13,7 +13,4 @@ class Category < ApplicationRecord
     end
   end
 
-  def parent_category
-    Category.find(category_id) if category_id
-  end
 end
