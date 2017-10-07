@@ -1,5 +1,8 @@
 class Place < ApplicationRecord
+  include Revisionable
+
   belongs_to :category
+  has_one    :proposal, as: :proposable
   has_many   :ratings
   has_many   :users, through: :ratings
 

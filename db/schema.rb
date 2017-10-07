@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170831135613) do
+ActiveRecord::Schema.define(version: 20170920082441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,21 @@ ActiveRecord::Schema.define(version: 20170831135613) do
     t.index ["user_id"], name: "index_ratings_on_user_id", using: :btree
   end
 
+  create_table "revisions", force: :cascade do |t|
+    t.integer  "positive",          default: 0
+    t.integer  "negative",          default: 0
+    t.string   "revisionable_type"
+    t.integer  "revisionable_id"
+    t.string   "proposable_type"
+    t.integer  "proposable_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.index ["proposable_type", "proposable_id"], name: "index_revisions_on_proposable_type_and_proposable_id", using: :btree
+    t.index ["revisionable_type", "revisionable_id"], name: "index_revisions_on_revisionable_type_and_revisionable_id", using: :btree
+    t.index ["user_id"], name: "index_revisions_on_user_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "password_digest"
@@ -68,4 +83,5 @@ ActiveRecord::Schema.define(version: 20170831135613) do
   add_foreign_key "places", "categories"
   add_foreign_key "ratings", "places"
   add_foreign_key "ratings", "users"
+  add_foreign_key "revisions", "users"
 end

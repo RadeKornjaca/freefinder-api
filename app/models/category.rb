@@ -1,7 +1,11 @@
 class Category < ApplicationRecord
-  belongs_to :parent_category, optional: true, class_name: 'Category'
+  include Revisionable
 
-  validates :name, uniqueness: true, presence: true
+  belongs_to :parent_category, optional: true, class_name: 'Category'
+  has_one    :proposal, as: :proposable
+
+#  validates :name, uniqueness: true, presence: true
+  validates :name, presence: true
 
   scope :after_last_update, lambda { |last_updated_timestamp| where('updated_at >= ?', last_updated_timestamp) }
 

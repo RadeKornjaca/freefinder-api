@@ -7,11 +7,24 @@ Rails.application.routes.draw do
 
     resources :api_keys
 
-    resources :places do
+    concern :revisionable do
+      resources :revisions, only: [ :index, :create ] do
+        member do
+          put 'approve'
+          put 'disprove'
+        end
+
+        collection do
+          get 'proposals'
+        end
+      end
+    end
+
+    resources :places, concerns: :revisionable do
       resources :ratings, only: [ :create ]
     end
 
-    resources :categories
+    resources :categories, concerns: :revisionable
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
