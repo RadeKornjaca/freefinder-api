@@ -5,7 +5,8 @@ class CategoriesController < AuthenticationController
   def index
     update_timestamp = params[:update_timestamp]
 
-    @categories = Category.fetch_categories(update_timestamp)
+    proposable_ids = Category.includes(:revisions).where.not(revisions: { proposable_id: nil }).pluck(:proposable_id)
+    @categories = Category.fetch_categories(update_timestamp, proposable_ids)
 
     # render json: @categories, include: :category
     # render 'categories/index'
