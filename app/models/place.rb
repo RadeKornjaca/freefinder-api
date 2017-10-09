@@ -15,6 +15,18 @@ class Place < ApplicationRecord
   scope :right_area, lambda { |min_long| where('lng >= ?', min_long) }
   scope :left_area,  lambda { |max_long| where('lng <= ?', max_long) }
 
+  scope :without_proposables, lambda { |proposable_ids|
+    where.not(id: proposable_ids)
+  }
+
+  scope :by_category, lambda { |category_id|
+    where(category_id: category_id) if category_id.present?
+  }
+
+  scope :by_name, lambda { |name|
+    where(name: name) if name.present?
+  }
+
   def self.area(min_lat, max_lat, min_long, max_long)
     self.down_area(max_lat).
          upper_area(min_lat).

@@ -3,12 +3,19 @@ class PlacesController < AuthenticationController
 
   # GET /places
   def index
+    proposable_ids = Place.includes(:revisions)
+                          .where.not(revisions: { proposable_id: nil })
+                          .pluck(:proposable_id)
+
     @places = Place.area(params[:min_lat],
                          params[:max_lat],
                          params[:min_lng],
-                         params[:max_lng]).includes([ :category, :ratings ])
-                                          .where(category_id: params[:category_id])
-#                                          .where(ratings: { user_id: @current_user.id })
+                         params[:max_lng])
+                   .without_proposables(proposable_ids)
+                   .by_category(params[:category_id])
+                   .by_name(params[:name])
+                   .includes([ :category, :ratings ])
+#                  .where(ratings: { user_id: @current_user.id })
 
     # render json: @places, include: :category
     # @places.includes( [:category, :ratings] )
