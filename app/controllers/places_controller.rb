@@ -1,5 +1,5 @@
 class PlacesController < AuthenticationController
-  before_action :set_place, only: [:show, :update, :destroy]
+  before_action :set_place, only: [:show, :update, :destroy, :visit]
 
   # GET /places
   def index
@@ -49,6 +49,15 @@ class PlacesController < AuthenticationController
   # DELETE /places/1
   def destroy
     @place.destroy
+  end
+
+  # PUT /categories/1/visit
+  def visit
+    @place.unique_visitors << @current_user unless @place.unique_visitors.exists?(@current_user.id)
+
+    @place.save
+
+    render json: '{}'
   end
 
   # after_action :decode_image, :only => [:create, :update]

@@ -1,14 +1,17 @@
 class Place < ApplicationRecord
   include Revisionable
+  include UniqueVisitable
+  include RevisionUpdateable
 
-  belongs_to :category
-  has_one    :proposal, as: :proposable
-  has_many   :ratings
-  has_many   :users, through: :ratings
+  belongs_to              :category
+  has_one                 :proposal, as: :proposable
+  has_many                :ratings
+  has_many                :users, through: :ratings
 
   validates :name, :lat, :lng, :category, presence: true
 
   # has_attached_file :image
+  # validates_attachment :image, content_type: { content_type: ['image/jpg', 'image/jpeg', 'image/png'] }
 
   scope :upper_area, lambda { |min_lat| where('lat >= ?', min_lat) }
   scope :down_area,  lambda { |max_lat| where('lat <= ?', max_lat) }
@@ -34,6 +37,13 @@ class Place < ApplicationRecord
          right_area(min_long)
   end
 
-  # validates_attachment :image, content_type: { content_type: ['image/jpg', 'image/jpeg', 'image/png'] }
+  def update_info(new_info)
+    self.update_attributes(name:          new_info.name,
+                           description:   new_info.description,
+                           encoded_image: new_info.encoded_image,
+                           category:      new_info.category,
+                           lat:           new_info.lat,
+                           lng:           new_info.lng)
 
+  end
 end

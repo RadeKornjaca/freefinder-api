@@ -43,6 +43,9 @@ class RevisionsController < AuthenticationController
                          .where(revisionable_id: revisionable_id)
   end
 
+  after_action :promote_revision, only: :approve
+  after_action :reject_revision,  only: :disprove
+
   private
     def set_revision
       @revision = Revision.find(params[:id])
@@ -52,6 +55,18 @@ class RevisionsController < AuthenticationController
       revisionable_id = (params[:category_id] or params[:place_id]).to_i
       revisionable_type, _ = params.keys.select { |key| key.include? '_id' }.first.split '_'
       @revisionable = revisionable_type.capitalize.constantize.find(revisionable_id)
+    end
+
+    def promote_revision
+      revision_service = RevisionService.new(@revision)
+
+      revision_service.update_information
+    end
+
+    def reject_revision
+      revision_service = RevisionService.new(@revision)
+
+      revision_service.reject_revision
     end
 
     def revision_params

@@ -20,11 +20,17 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :places, concerns: :revisionable do
+    concern :visitable do
+      member do
+        post 'visit'
+      end
+    end
+
+    resources :places, concerns: [:revisionable, :visitable] do
       resources :ratings, only: [ :create ]
     end
 
-    resources :categories, concerns: :revisionable
+    resources :categories, concerns: [:revisionable, :visitable]
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

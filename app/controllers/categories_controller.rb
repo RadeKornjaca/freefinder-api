@@ -1,5 +1,5 @@
 class CategoriesController < AuthenticationController
-  before_action :set_category, only: [:show, :update, :destroy]
+  before_action :set_category, only: [:show, :update, :destroy, :visit]
 
   # GET /categories
   def index
@@ -40,6 +40,14 @@ class CategoriesController < AuthenticationController
   # DELETE /categories/1
   def destroy
     @category.destroy
+  end
+
+  # PUT /categories/1/visit
+  def visit
+    @category.unique_visitors << @current_user unless @category.unique_visitors.exists?(@current_user.id)
+    @category.save
+
+    render json: '{}'
   end
 
   private

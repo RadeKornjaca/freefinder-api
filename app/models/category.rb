@@ -1,8 +1,10 @@
 class Category < ApplicationRecord
   include Revisionable
+  include UniqueVisitable
+  include RevisionUpdateable
 
-  belongs_to :parent_category, optional: true, class_name: 'Category'
-  has_one    :proposal, as: :proposable
+  belongs_to              :parent_category, optional: true, class_name: 'Category'
+  has_one                 :proposal, as: :proposable
 
 #  validates :name, uniqueness: true, presence: true
   validates :name, presence: true
@@ -19,6 +21,11 @@ class Category < ApplicationRecord
       self.includes(:parent_category)
           .without_proposables(proposable_ids)
     end
+  end
+
+  def update_info(new_info)
+    self.update_attributes(name: new_info.name,
+                           parent_category: new_info.parent_category)
   end
 
 end

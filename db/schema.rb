@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170920082441) do
+ActiveRecord::Schema.define(version: 20171009235112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,11 @@ ActiveRecord::Schema.define(version: 20170920082441) do
     t.index ["parent_category_id"], name: "index_categories_on_parent_category_id", using: :btree
   end
 
+  create_table "categories_users", id: false, force: :cascade do |t|
+    t.integer "user_id",     null: false
+    t.integer "category_id", null: false
+  end
+
   create_table "places", force: :cascade do |t|
     t.string   "name"
     t.float    "lat"
@@ -44,6 +49,11 @@ ActiveRecord::Schema.define(version: 20170920082441) do
     t.string   "encoded_image"
     t.text     "description"
     t.index ["category_id"], name: "index_places_on_category_id", using: :btree
+  end
+
+  create_table "places_users", id: false, force: :cascade do |t|
+    t.integer "user_id",  null: false
+    t.integer "place_id", null: false
   end
 
   create_table "ratings", force: :cascade do |t|
