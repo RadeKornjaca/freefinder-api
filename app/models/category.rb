@@ -3,8 +3,11 @@ class Category < ApplicationRecord
   include UniqueVisitable
   include RevisionUpdateable
 
-  belongs_to              :parent_category, optional: true, class_name: 'Category'
-  has_one                 :proposal, as: :proposable
+  belongs_to :parent_category, optional: true, class_name: 'Category'
+  has_one    :proposal, as: :proposable
+  has_many   :additional_fields
+
+  accepts_nested_attributes_for :additional_fields, allow_destroy: true
 
 #  validates :name, uniqueness: true, presence: true
   validates :name, presence: true

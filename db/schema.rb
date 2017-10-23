@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009235112) do
+ActiveRecord::Schema.define(version: 20171022223917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "additional_fields", force: :cascade do |t|
+    t.string   "name"
+    t.string   "field_type"
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["category_id"], name: "index_additional_fields_on_category_id", using: :btree
+  end
 
   create_table "api_keys", force: :cascade do |t|
     t.string   "access_token"
@@ -48,6 +57,7 @@ ActiveRecord::Schema.define(version: 20171009235112) do
     t.datetime "updated_at",                null: false
     t.string   "encoded_image"
     t.text     "description"
+    t.jsonb    "metadata"
     t.index ["category_id"], name: "index_places_on_category_id", using: :btree
   end
 
@@ -88,6 +98,7 @@ ActiveRecord::Schema.define(version: 20171009235112) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "additional_fields", "categories"
   add_foreign_key "api_keys", "users"
   add_foreign_key "categories", "categories", column: "parent_category_id"
   add_foreign_key "places", "categories"

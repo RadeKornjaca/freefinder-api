@@ -9,6 +9,7 @@ class Place < ApplicationRecord
   has_many                :users, through: :ratings
 
   validates :name, :lat, :lng, :category, presence: true
+  validate  :validate_metadata
 
   # has_attached_file :image
   # validates_attachment :image, content_type: { content_type: ['image/jpg', 'image/jpeg', 'image/png'] }
@@ -43,7 +44,18 @@ class Place < ApplicationRecord
                            encoded_image: new_info.encoded_image,
                            category:      new_info.category,
                            lat:           new_info.lat,
-                           lng:           new_info.lng)
+                           lng:           new_info.lng,
+                           metadata:      new_info.metadata)
 
+  end
+
+  private
+
+  def validate_metadata
+    metadata_field_names = category.additional_fields.map { |af| af.name }
+
+    unless metadata.keys & metadata_field_names == metadata.keys
+      errors.add(:metadata, "for a place that belongs to a #{category.name} category can only contain additional fields: #{metadata_field_names.join(", ")}") 
+    end
   end
 end
