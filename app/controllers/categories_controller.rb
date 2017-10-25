@@ -19,7 +19,16 @@ class CategoriesController < AuthenticationController
 
   # POST /categories
   def create
-    @category = Category.new(category_params)
+    @category = Category.new(
+      name: category_params[:name], 
+      parent_category_id: category_params[:parent_category_id]
+    )
+
+    category_params[:additional_fields].each do |additional_field|
+      @category.additional_fields.build(
+        additional_field
+      )
+    end
 
     if @category.save
       render json: @category, status: :created, location: @category
@@ -58,6 +67,6 @@ class CategoriesController < AuthenticationController
 
     # Only allow a trusted parameter "white list" through.
     def category_params
-      params.require(:category).permit(:name, :parent_category_id)
+      params.require(:category).permit(:name, :parent_category_id, { additional_fields: [ :name, :field_type ] })
     end
 end

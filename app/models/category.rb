@@ -5,7 +5,7 @@ class Category < ApplicationRecord
 
   belongs_to :parent_category, optional: true, class_name: 'Category'
   has_one    :proposal, as: :proposable
-  has_many   :additional_fields
+  has_many   :additional_fields, inverse_of: :category
 
   accepts_nested_attributes_for :additional_fields, allow_destroy: true
 
