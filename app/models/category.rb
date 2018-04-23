@@ -17,11 +17,11 @@ class Category < ApplicationRecord
 
   def self.fetch_categories(update_timestamp, proposable_ids)
     if update_timestamp
-      self.includes(:parent_category)
+      self.includes(:parent_category, :additional_fields)
           .without_proposables(proposable_ids)
           .after_last_update(update_timestamp)
     else
-      self.includes(:parent_category)
+      self.includes(:parent_category, :additional_fields)
           .without_proposables(proposable_ids)
     end
   end

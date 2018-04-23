@@ -3,14 +3,17 @@ require 'rails_helper'
 RSpec.describe Place, type: :model do
   subject do
     @category = FactoryGirl.build(:category)
-    described_class.new(name: 'Jovan Jovanovic Zmaj',
-                        lat: 45.256896,
-                        lng: 19.847872,
+    described_class.new(id:   1,
+                        name: 'Jovan Jovanovic Zmaj',
+                        lat:  45.256896,
+                        lng:  19.847872,
+                        metadata: JSON.parse("{ \"MyString\": \"test_value\" }"),
                         category: @category)
   end
 
   describe 'Validations' do
     it 'is valid with valid attributes' do
+
       expect(subject).to be_valid
     end
 
@@ -41,6 +44,7 @@ RSpec.describe Place, type: :model do
         @place = Place.create!(name: 'Jovan Jovanovic Zmaj',
                                lat: 45.256896,
                                lng: 19.847872,
+                               metadata: JSON.parse("{ \"MyString\": \"test_value\" }"),
                                category: @category)
 
         @min_lat = 45
