@@ -1,18 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe Category, type: :model do
-  subject do
-    described_class.new(name: 'Monument')
+  before do
+    @category = FactoryGirl.build(:category)
   end
+
 
   describe 'Validations' do
     it 'is valid with valid attributes' do
-      expect(subject).to be_valid
+      expect(@category).to be_valid
     end
 
     it 'is not valid without a name' do
-      subject.name = nil
-      expect(subject).to_not be_valid
+      @category.name = nil
+      expect(@category).to_not be_valid
     end
   end
 end

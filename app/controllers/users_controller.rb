@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   before_action :find_by_login_credentials, :only => [:device_sign_in]
   before_action :find_by_access_token, :only => [:device_sign_out]
 
+  wrap_parameters :user, include: %i[email password password_confirmation]
+
   # POST /users
   def create
       @user = User.new(user_params)
@@ -15,10 +17,14 @@ class UsersController < ApplicationController
 
   # POST /device_sign_in
   def device_sign_in
-    if @user.update_attributes(:api_keys => @user.api_keys << ApiKey.new)
+#    if @user.update_attributes(:api_keys => @user.api_keys << ApiKey.new)
+    if @user and ApiKey.create(user: @user)
       render :json => @user.api_keys.last, :status => :created
     else
-      render :json => @user.errors, :status => :unprocessable_entity
+      render json: {
+               error: "No such user. Check input credentials.",
+               status: :unprocessable_entity
+             }, status: :unprocessable_entity
     end
   end
 

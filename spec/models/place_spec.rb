@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Place, type: :model do
+  before do
+    @place = FactoryGirl.build(:place)
+  end
+
   subject do
     @category = FactoryGirl.build(:category)
     described_class.new(id:   1,
